@@ -16,8 +16,8 @@ class Menu extends Component {
     render() {
         const menu = this.props.dishes.map((dish) => {
             return (
-                <div  className="col-12 col-md-5 m-1">
-                    <Dish dish={dish} clcikListener={()=>this.onDishSelect(dish)}/>
+                <div  className="col-12 col-md-5 m-1" key={dish.id}>
+                    <Dish dish={dish} onClick={this.props.onClick}/>
                 </div>
             );
         });
@@ -36,9 +36,9 @@ class Menu extends Component {
 class Dish extends Component{
     render() {
         const dish = this.props.dish;
-        const clcikListener = this.props.clcikListener;
+        const clickListener = this.props.onClick;
         return(
-            <Card key={dish.id} onClick={clcikListener}>
+            <Card key={dish.id} onClick={() => clickListener(dish.id)}>
                 <CardImg width="100%" src={dish.image} alt={dish.name} />
                 <CardImgOverlay>
                     <CardTitle>{dish.name}</CardTitle>

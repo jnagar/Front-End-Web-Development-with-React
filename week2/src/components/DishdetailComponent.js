@@ -15,26 +15,24 @@ class Dishdetail extends Component {
         if(dish != null){
             const comments = dish.comments.map((comment)=>{
                 return (
-                    <Comment comment={comment.comment} author={comment.author} date={comment.date} />
+                    <RenderComment comment={comment.comment} author={comment.author} date={comment.date} />
                 );
             });
+            const dishDetails =  <RenderDish dish={dish}/>;
+
             return (
-                <div className="row">
-                    <div  className="col-12 col-md-5 m-1">
-                        <Card>
-                            <CardImg top src={dish.image} alt={dish.name} />
-                            <CardBody>
-                                <CardTitle>{dish.name}</CardTitle>
-                                <CardText>{dish.description}</CardText>
-                            </CardBody>
-                        </Card>
-                    </div>
-                    <div  className="col-12 col-md-5 m-1">
-                        <div>
-                            <h4>Comments</h4>
-                            <ul className="list-unstyled">
-                                {comments}
-                            </ul>
+                <div className="container">
+                    <div className="row">
+                        <div  className="col-12 col-md-5 m-1">
+                            {dishDetails}
+                        </div>
+                        <div  className="col-12 col-md-5 m-1">
+                            <div>
+                                <h4>Comments</h4>
+                                <ul className="list-unstyled">
+                                    {comments}
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -47,7 +45,21 @@ class Dishdetail extends Component {
             );
     }
 }
-class Comment extends Component{
+class RenderDish extends Component{
+    render() {
+        return(
+            <Card>
+                <CardImg top src={this.props.dish.image} alt={this.props.dish.name} />
+                <CardBody>
+                    <CardTitle>{this.props.dish.name}</CardTitle>
+                    <CardText>{this.props.dish.description}</CardText>
+                </CardBody>
+            </Card>
+        );
+    }
+
+}
+class RenderComment extends Component{
     render() {
         let date = new Date(this.props.date);
         return(
