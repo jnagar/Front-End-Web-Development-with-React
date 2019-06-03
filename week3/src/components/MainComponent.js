@@ -7,10 +7,6 @@ import Home from './HomeComponent';
 import Contact from './ContactComponent';
 import { Switch, Route, Redirect,withRouter } from 'react-router-dom';
 import About from "./AboutComponent";
-import { DISHES } from '../shared/dishes';
-import { COMMENTS } from '../shared/comments';
-import { PROMOTIONS } from '../shared/promotions';
-import { LEADERS } from '../shared/leaders';
 import { connect } from 'react-redux';
 
 const mapStateToProps = state => {
@@ -20,24 +16,9 @@ const mapStateToProps = state => {
         promotions: state.promotions,
         leaders: state.leaders
     }
-}
+};
 
 class Main extends Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            dishes: DISHES,
-            comments: COMMENTS,
-            promotions: PROMOTIONS,
-            leaders: LEADERS
-        };
-    }
-
-    onDishSelect(dishId) {
-        this.setState({ selectedDish: dishId});
-    }
-
     render() {
         const HomePage = () => {
             return(
@@ -47,7 +28,7 @@ class Main extends Component {
                     leader={this.props.leaders.filter((leader) => leader.featured)[0]}
                 />
             );
-        }
+        };
 
         const DishWithId = ({match}) => {
             return(
