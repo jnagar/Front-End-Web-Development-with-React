@@ -1,13 +1,39 @@
 import React, { Component } from 'react';
-import { Card, CardImg, CardText, CardBody, CardTitle, Breadcrumb, BreadcrumbItem } from 'reactstrap';
+import {
+    Card,
+    CardImg,
+    CardText,
+    CardBody,
+    CardTitle,
+    Breadcrumb,
+    BreadcrumbItem,
+    ModalHeader,
+    ModalBody, Form, FormGroup, Label, CustomInput,Input, Button, Modal
+} from 'reactstrap';
 import { Link } from 'react-router-dom';
 
 class Dishdetail extends Component {
     constructor(props) {
         super(props);
+
+        this.toggleCommentModal = this.toggleCommentModal.bind(this);
+        this.handleCommentSubmit = this.handleCommentSubmit.bind(this);
         this.state = {
-            selectedDish: null
-        }
+            selectedDish: null,
+            isCommentModalOpen: false
+        };
+    }
+
+    toggleCommentModal() {
+        this.setState({
+            isCommentModalOpen: !this.state.isCommentModalOpen
+        });
+    }
+    handleCommentSubmit(event) {
+        this.toggleModal();
+        alert("Username: " + this.username.value + " Password: " + this.password.value
+            + " Remember: " + this.remember.checked);
+        event.preventDefault();
     }
 
     render() {
@@ -30,8 +56,38 @@ class Dishdetail extends Component {
                     </div>
                     <div className="col-12 col-md-5 m-1">
                         <RenderComments comments={this.props.comments} />
+                        <CommentForm toggleButton={this.toggleCommentModal}/>
                     </div>
                 </div>
+
+                <Modal isOpen={this.state.isCommentModalOpen} toggle={this.toggleCommentModal}>
+                    <ModalHeader toggle={this.toggleCommentModal}>Submit Comment</ModalHeader>
+                    <ModalBody>
+                        <Form onSubmit={this.handleCommentSubmit}>
+                            <FormGroup>
+                                <Label htmlFor="rating">Rating</Label>
+                                <CustomInput type="select" id="rating" name="rating">
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option>
+                                </CustomInput>
+                            </FormGroup>
+                            <FormGroup>
+                                <Label htmlFor="name">Name</Label>
+                                <Input type="text" id="name" name="name" placeholder="Your Name"
+                                       innerRef={(input) => this.name = input}  />
+                            </FormGroup>
+                            <FormGroup>
+                                <Label htmlFor="comment">Comment</Label>
+                                <Input type="textarea" id="comment" name="comment"
+                                       innerRef={(input) => this.comment = input}  />
+                            </FormGroup>
+                            <Button type="submit" value="submit" color="primary">Submit</Button>
+                        </Form>
+                    </ModalBody>
+                </Modal>
             </div>
         );
     }
@@ -70,5 +126,13 @@ class RenderComments extends Component{
         );
     }
 }
-
+class CommentForm extends Component{
+    render() {
+        return(
+            <div>
+                <Button outline onClick={this.props.toggleButton}><span className="fa fa-pencil fa-md"></span> Submit Comment</Button>
+            </div>
+        );
+    }
+}
 export default Dishdetail;
