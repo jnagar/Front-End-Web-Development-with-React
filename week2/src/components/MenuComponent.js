@@ -9,9 +9,6 @@ class Menu extends Component {
             selectedDish: null
         }
     }
-    onDishSelect(dish) {
-        this.setState({ selectedDish: dish});
-    }
 
     render() {
         const menu = this.props.dishes.map((dish) => {
@@ -27,7 +24,6 @@ class Menu extends Component {
                 <div className="row">
                     {menu}
                 </div>
-                <Dishdetail dish={this.state.selectedDish} />
             </div>
         );
     }
