@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Card, CardImg, CardText, CardBody, CardTitle } from 'reactstrap';
+import { Card, CardImg, CardText, CardBody, CardTitle, Breadcrumb, BreadcrumbItem } from 'reactstrap';
+import { Link } from 'react-router-dom';
 
 class Dishdetail extends Component {
     constructor(props) {
@@ -10,38 +11,29 @@ class Dishdetail extends Component {
     }
 
     render() {
-        const dish = this.props.dish;
-        if(dish != null){
-            const comments = dish.comments.map((comment)=>{
-                return (
-                    <RenderComment comment={comment.comment} author={comment.author} date={comment.date} />
-                );
-            });
-            const dishDetails =  <RenderDish dish={dish}/>;
+        return (
+            <div className="container">
+                <div className="row">
+                    <Breadcrumb>
 
-            return (
-                <div className="container">
-                    <div className="row">
-                        <div  className="col-12 col-md-5 m-1">
-                            {dishDetails}
-                        </div>
-                        <div  className="col-12 col-md-5 m-1">
-                            <div>
-                                <h4>Comments</h4>
-                                <ul className="list-unstyled">
-                                    {comments}
-                                </ul>
-                            </div>
-                        </div>
+                        <BreadcrumbItem><Link to="/menu">Menu</Link></BreadcrumbItem>
+                        <BreadcrumbItem active>{this.props.dish.name}</BreadcrumbItem>
+                    </Breadcrumb>
+                    <div className="col-12">
+                        <h3>{this.props.dish.name}</h3>
+                        <hr />
                     </div>
                 </div>
-
-            );
-        }
-        else
-            return (
-              <div></div>
-            );
+                <div className="row">
+                    <div className="col-12 col-md-5 m-1">
+                        <RenderDish dish={this.props.dish} />
+                    </div>
+                    <div className="col-12 col-md-5 m-1">
+                        <RenderComments comments={this.props.comments} />
+                    </div>
+                </div>
+            </div>
+        );
     }
 }
 class RenderDish extends Component{
@@ -58,14 +50,23 @@ class RenderDish extends Component{
     }
 
 }
-class RenderComment extends Component{
+class RenderComments extends Component{
     render() {
-        let date = new Date(this.props.date);
+        const comments = this.props.comments.map((comment)=>{
+            return (
+                <li>
+                    <p>{comment.comment}</p>
+                    <p><span>-- {comment.author}, </span><span> {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(comment.date)))}</span></p>
+                </li>
+            );
+        });
         return(
-            <li>
-                <p>{this.props.comment}</p>
-                <p><span>-- {this.props.author}, </span><span> {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(date)))}</span></p>
-            </li>
+            <div>
+                <h4>Comments</h4>
+                <ul className="list-unstyled">
+                    {comments}
+                </ul>
+            </div>
         );
     }
 }
