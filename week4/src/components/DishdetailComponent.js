@@ -14,6 +14,7 @@ import { Link } from 'react-router-dom';
 import {Control, Errors, LocalForm} from "react-redux-form";
 import { Loading } from './LoadingComponent';
 import { baseUrl } from '../shared/baseUrl';
+import { FadeTransform, Fade, Stagger } from 'react-animation-components';
 
 const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !(val) || (val.length <= len);
@@ -75,33 +76,43 @@ class Dishdetail extends Component {
 class RenderDish extends Component{
     render() {
         return(
-            <Card>
-                <CardImg top src={baseUrl + this.props.dish.image} alt={this.props.dish.name} />
-                <CardBody>
-                    <CardTitle>{this.props.dish.name}</CardTitle>
-                    <CardText>{this.props.dish.description}</CardText>
-                </CardBody>
-            </Card>
+            <FadeTransform
+                in
+                transformProps={{
+                    exitTransform: 'scale(0.5) translateY(-50%)'
+                }}>
+                <Card>
+                    <CardImg top src={baseUrl + this.props.dish.image} alt={this.props.dish.name} />
+                    <CardBody>
+                        <CardTitle>{this.props.dish.name}</CardTitle>
+                        <CardText>{this.props.dish.description}</CardText>
+                    </CardBody>
+                </Card>
+            </FadeTransform>
         );
     }
 
 }
 class RenderComments extends Component{
     render() {
-        const comments = this.props.comments.map((comment)=>{
-            return (
-                <li>
-                    <p>{comment.comment}</p>
-                    <p><span>-- {comment.author}, </span><span> {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(comment.date)))}</span></p>
-                </li>
-            );
-        });
+        const comments = this.props.comments;
         if(comments != null){
             return(
                 <div>
                     <h4>Comments</h4>
                     <ul className="list-unstyled">
-                        {comments}
+                        <Stagger in>
+                            {comments.map((comment) => {
+                                return (
+                                    <Fade in>
+                                        <li key={comment.id}>
+                                            <p>{comment.comment}</p>
+                                            <p>-- {comment.author} , {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(comment.date)))}</p>
+                                        </li>
+                                    </Fade>
+                                );
+                            })}
+                        </Stagger>
                     </ul>
                     <CommentForm dishId={this.props.dishId} postComment={this.props.postComment}/>
                 </div>
