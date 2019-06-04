@@ -7,7 +7,7 @@ import { Fade, Stagger } from 'react-animation-components';
 
 class About extends Component {
     render() {
-        if (this.props.isLoading) {
+        if (this.props.leaders.isLoading) {
             return(
                 <div className="container">
                     <div className="row">
@@ -16,7 +16,7 @@ class About extends Component {
                 </div>
             );
         }
-        else if (this.props.errMess) {
+        else if (this.props.leaders.errMess) {
             return(
                 <div className="container">
                     <div className="row">
