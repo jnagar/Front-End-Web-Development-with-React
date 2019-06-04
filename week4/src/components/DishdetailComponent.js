@@ -63,7 +63,7 @@ class Dishdetail extends Component {
                             <RenderDish dish={this.props.dish} />
                         </div>
                         <div className="col-12 col-md-5 m-1">
-                            <RenderComments comments={this.props.comments} addComment={this.props.addComment}
+                            <RenderComments comments={this.props.comments} postComment={this.props.postComment}
                                             dishId={this.props.dish.id} />
                         </div>
                     </div>
@@ -103,13 +103,13 @@ class RenderComments extends Component{
                     <ul className="list-unstyled">
                         {comments}
                     </ul>
-                    <CommentForm dishId={this.props.dishId} addComment={this.props.addComment}/>
+                    <CommentForm dishId={this.props.dishId} postComment={this.props.postComment}/>
                 </div>
             );
         }else {
             return(
                 <div>
-                    <CommentForm dishId={this.props.dishId} addComment={this.props.addComment}/>
+                    <CommentForm dishId={this.props.dishId} postComment={this.props.postComment}/>
                 </div>
             );
         }
@@ -135,7 +135,7 @@ class CommentForm extends Component{
         this.toggleCommentModal();
         console.log(values);
         console.log('Current State is: ' + JSON.stringify(values));
-        this.props.addComment(this.props.dishId, values.rating, values.author, values.comment);
+        this.props.postComment(this.props.dishId, values.rating, values.author, values.comment);
     }
     render() {
         return(
